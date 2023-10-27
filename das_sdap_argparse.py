@@ -3,8 +3,8 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('method', choices=['init', 'scan', 'wait_scan', 'wait_report', 'print_result'], type=str,
                     help='调用方法')
-parser.add_argument('--url', type=str, help='DAS-SDAP服务地址')
-parser.add_argument('--apikey', type=str, help='DAS-SDAP服务apikey')
+parser.add_argument('-url', '--url', type=str, help='DAS-SDAP服务地址')
+parser.add_argument('-k', '--apikey', type=str, help='DAS-SDAP服务apikey')
 parser.add_argument('-f', '--file_path', type=argparse.FileType('rb'), help='文件路径')
 parser.add_argument('-pn', '--project', type=str, help='项目名称')
 parser.add_argument('-an', '--asset', type=str, help='资产名称')

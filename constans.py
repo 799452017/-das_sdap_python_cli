@@ -1,0 +1,4 @@
+ENV_PATH = '.env'
+URL = 'DAS_SDAP_URL'
+X_API_KEY = 'DAS_SDAP_X_API_KEY'
+X_API_HEADER_KEY = 'x-api-key'

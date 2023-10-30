@@ -8,6 +8,7 @@ from tabulate import tabulate
 from constans import *
 from das_sdap_util import *
 
+
 class APIError(Exception):
     pass
 
@@ -79,6 +80,7 @@ def upload_file(file_path):
 
 
 def sent_scan():
+    file_key = None
     asset_name = args.asset
     project_name = args.project
     task_name = args.task_name
@@ -87,7 +89,7 @@ def sent_scan():
     username = args.username
     password = args.password
     credential_id = args.credential_id
-    parameters = args.parameters
+    parameters = get_parameters()
     file_path = args.file_path
 
     if file_path:
@@ -111,7 +113,7 @@ def sent_scan():
     json_body = json.dumps(body)
     response = requests.post(get_url('/api/asset/dispatch'), headers=default_headers_json(), data=json_body)
     data = check_response(response)
-    write_file(json.dumps(data), args.out_file)
+    write_file(json.dumps(data), args.out_path)
 
 
 def task_state(task_id):
@@ -209,7 +211,8 @@ def get_scan():
 def print_result():
     scan_id = get_scan()
     params = {
-        'scanId': scan_id
+        'scanId': scan_id,
+        'repeat': 'true'
     }
     response = requests.get(get_url('/api/project/overview/vul'), params=params, headers=default_headers())
     data = check_response(response)
@@ -224,4 +227,3 @@ def print_result():
     ]
     table_info = tabulate(vul_risk_data, headers='firstrow', tablefmt="simple")
     print(table_info)
-

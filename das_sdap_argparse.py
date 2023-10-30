@@ -1,5 +1,26 @@
 import argparse
 
+
+def parse_map_arg(arg):
+    """
+    解析键值对的参数并返回字典
+    """
+    try:
+        key, value = arg.split("=")
+        return {key: value}
+    except ValueError:
+        raise argparse.ArgumentTypeError("参数格式无效，应为key=value")
+
+
+def get_parameters():
+    # 使用map参数
+    if args.parameters:
+        my_map = {}
+        for item in args.parameters:
+            my_map.update(item)
+        return my_map
+
+
 parser = argparse.ArgumentParser()
 parser.add_argument('method', choices=['init', 'scan', 'wait_scan', 'wait_report', 'print_result'], type=str,
                     help='调用方法')
@@ -29,6 +50,7 @@ parser.add_argument('-u', '--username', required=False, type=str, help='资产�
 parser.add_argument('-p', '--password', required=False, type=str, help='资产凭据密码')
 parser.add_argument('-cred_id', '--credential_id', required=False, type=str, help='凭据编号，优先级大于资产凭据账号密码')
 parser.add_argument('-stray_id', '--strategy_id', required=False, type=int, help='扫描策略编号')
-parser.add_argument('-params', '--parameters', required=False, type=str, help='扫描策略扩展参数，具体值依据策略填写')
+parser.add_argument('-params', '--parameters', nargs='+', required=False, type=parse_map_arg,
+                    help='扫描策略扩展参数，具体值依据策略填写')
 parser.add_argument('-o', '--out_path', required=False, type=str, help='执行结果输出到文件')
 args = parser.parse_args()

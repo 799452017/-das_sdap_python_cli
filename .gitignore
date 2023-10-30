@@ -220,3 +220,6 @@ build/
 # pip cache
 .cache/
 pip-wheel-metadata/
+
+# customs
+scan_result.json

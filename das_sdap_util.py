@@ -44,13 +44,19 @@ def asset_init(asset_type):
         }
 
 
-
 def write_file(context, file_path):
     if not file_path:
         return
     # 将结果输出到文件
     with open(file_path, "w") as file:
         file.write(context)
+
+
+def read_string_for_file(file_path):
+    if not file_path:
+        return
+    with open(file_path.name, 'r') as file:
+        return file
 
 
 def read_json_for_file(file_path):

@@ -22,7 +22,7 @@ def get_parameters():
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('method', choices=['init', 'scan', 'wait_scan', 'wait_report', 'print_result'], type=str,
+parser.add_argument('method', choices=['init', 'scan', 'wait_scan', 'wait_report', 'print_result', 'upload_file'], type=str,
                     help='调用方法')
 parser.add_argument('-url', '--url', type=str, help='DAS-SDAP服务地址')
 parser.add_argument('-k', '--apikey', type=str, help='DAS-SDAP服务apikey')
@@ -53,4 +53,6 @@ parser.add_argument('-stray_id', '--strategy_id', required=False, type=int, help
 parser.add_argument('-params', '--parameters', nargs='+', required=False, type=parse_map_arg,
                     help='扫描策略扩展参数，具体值依据策略填写')
 parser.add_argument('-o', '--out_path', required=False, type=str, help='执行结果输出到文件')
+parser.add_argument('-fk', '--file_key', required=False, type=str, help='fileKey')
+parser.add_argument('-fk_path', '--file_key_path', required=False, type=str, help='fileKey_path')
 args = parser.parse_args()

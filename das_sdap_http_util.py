@@ -71,6 +71,13 @@ def init_config():
     set_key(ENV_PATH, X_API_KEY, x_api_key)
 
 
+def upload_file_():
+    file_path = args.file_path
+    file_key = upload_file(file_path)
+    out_path = args.out_path
+    write_file(file_key, out_path)
+
+
 def upload_file(file_path):
     file_path = file_path.name
     response = requests.post(get_url('/api/system/file/upload'), files={'file': (file_path, open(file_path, 'rb'))},
@@ -91,9 +98,15 @@ def sent_scan():
     credential_id = args.credential_id
     parameters = get_parameters()
     file_path = args.file_path
+    file_key_arg = args.file_key
+    file_key_path = args.file_key_path
 
     if file_path:
         file_key = upload_file(file_path)
+    elif file_key_arg:
+        file_key = file_key_arg
+    elif file_key_path:
+        file_key = read_json_for_file(file_key_path)
 
     body = {
         'name': asset_name,
@@ -170,7 +183,9 @@ def report_state(report_id):
 
 
 def download_file(file_key, out_path):
-    response = requests.get(get_url('/api/system/file/download/' + file_key), stream=True)
+    download_url = get_url('/api/system/file/download/' + file_key)
+    print('报告下载链接：' + download_url)
+    response = requests.get(download_url, stream=True)
     response.raise_for_status()
 
     with open(out_path, 'wb') as file:

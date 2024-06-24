@@ -65,7 +65,7 @@ def init_config():
     url = url.rstrip('/')
     x_api_key = args.apikey
 
-    response = requests.get(url + '/dipper-sso/api/user', headers={X_API_HEADER_KEY: x_api_key})
+    response = requests.get(url + '/dipper-sso/api/user', verify=False, headers={X_API_HEADER_KEY: x_api_key})
     check_response(response)
     set_key(ENV_PATH, URL, url)
     set_key(ENV_PATH, X_API_KEY, x_api_key)
@@ -80,7 +80,7 @@ def upload_file_():
 
 def upload_file(file_path):
     file_path = file_path.name
-    response = requests.post(get_url('/api/system/file/upload'), files={'file': (file_path, open(file_path, 'rb'))},
+    response = requests.post(get_url('/api/system/file/upload'), verify=False, files={'file': (file_path, open(file_path, 'rb'))},
                              headers=default_headers())
     data = check_response(response)
     return data['key']
@@ -124,13 +124,13 @@ def sent_scan():
         'parameters': parameters
     }
     json_body = json.dumps(body)
-    response = requests.post(get_url('/api/asset/dispatch'), headers=default_headers_json(), data=json_body)
+    response = requests.post(get_url('/api/asset/dispatch'), verify=False, headers=default_headers_json(), data=json_body)
     data = check_response(response)
     write_file(json.dumps(data), args.out_path)
 
 
 def task_state(task_id):
-    response = requests.get(get_url('/api/task/state/' + str(task_id)), headers=default_headers())
+    response = requests.get(get_url('/api/task/state/' + str(task_id)), verify=False, headers=default_headers())
     data = check_response(response)
     return data[0]
 
@@ -171,13 +171,13 @@ def export_report(report_name, scan_id):
     }
 
     json_body = json.dumps(body)
-    response = requests.post(get_url('/api/report/export'), headers=default_headers_json(), data=json_body)
+    response = requests.post(get_url('/api/report/export'), verify=False, headers=default_headers_json(), data=json_body)
     data = check_response(response)
     return data
 
 
 def report_state(report_id):
-    response = requests.post(get_url('/api/report/' + str(report_id)), headers=default_headers())
+    response = requests.post(get_url('/api/report/' + str(report_id)), verify=False, headers=default_headers())
     data = check_response(response)
     return data
 
@@ -185,7 +185,7 @@ def report_state(report_id):
 def download_file(file_key, out_path):
     download_url = get_url('/api/system/file/download/' + file_key)
     print('报告下载链接：' + download_url)
-    response = requests.get(download_url, stream=True)
+    response = requests.get(download_url, verify=False, stream=True)
     response.raise_for_status()
 
     with open(out_path, 'wb') as file:
@@ -229,7 +229,7 @@ def print_result():
         'scanId': scan_id,
         'repeat': 'true'
     }
-    response = requests.get(get_url('/api/project/overview/vul'), params=params, headers=default_headers())
+    response = requests.get(get_url('/api/project/overview/vul'), verify=False, params=params, headers=default_headers())
     data = check_response(response)
     print(data)
     vul_risk_data = [

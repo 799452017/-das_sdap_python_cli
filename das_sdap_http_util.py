@@ -130,7 +130,7 @@ def sent_scan():
 
 
 def task_state(task_id):
-    response = requests.get(get_url('/api/task/state/' + str(task_id)), verify=False, headers=default_headers())
+    response = requests.get(get_url('/api/task/state/' + str(task_id)), timeout=30, verify=False, headers=default_headers())
     data = check_response(response)
     return data[0]
 
@@ -149,7 +149,7 @@ def wait_scan():
             raise APIError(f'任务异常终止 {state} ')
 
         print('任务执行中..')
-        time.sleep(5)  # 如果状态不是成功、错误或停止，则等待一段时间后继续轮询
+        time.sleep(6)  # 如果状态不是成功、错误或停止，则等待一段时间后继续轮询
 
 
 def export_report(report_name, scan_id):

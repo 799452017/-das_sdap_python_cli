@@ -2,9 +2,6 @@ from dotenv import load_dotenv
 
 from das_sdap_http_util import *
 
-import sys
-sys.setdefaultencoding("utf-8")
-
 method_map = {
     'init': init_config,
     'scan': sent_scan,

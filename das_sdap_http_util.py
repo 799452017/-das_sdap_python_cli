@@ -8,9 +8,6 @@ from tabulate import tabulate
 from constans import *
 from das_sdap_util import *
 
-import sys
-sys.setdefaultencoding("utf-8")
-
 class APIError(Exception):
     pass
 

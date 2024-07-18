@@ -1,8 +1,7 @@
 import json
 
 from das_sdap_argparse import *
-import sys
-reload(sys)
+
 sys.setdefaultencoding("utf-8")
 
 def asset_init(asset_type):

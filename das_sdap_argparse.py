@@ -1,7 +1,5 @@
 import argparse
 
-import sys
-reload(sys)
 sys.setdefaultencoding("utf-8")
 
 def parse_map_arg(arg):

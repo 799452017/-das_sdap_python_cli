@@ -8,6 +8,7 @@ from tabulate import tabulate
 from constans import *
 from das_sdap_util import *
 
+import sys
 reload(sys)
 sys.setdefaultencoding("utf-8")
 

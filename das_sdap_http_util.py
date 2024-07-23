@@ -2,6 +2,8 @@ import os
 
 import requests
 import time
+import operator
+
 from dotenv import set_key
 from tabulate import tabulate
 
@@ -254,3 +256,65 @@ def print_result():
             }
         }
         write_file(vul_stats, args.out_path)
+    return data
+def sec_gate():
+    # vuln_stats = print_result()
+    # c = vuln_stats['criticalCount']
+    # h = vuln_stats['highCount']
+    # m = vuln_stats['mediumCount']
+    # l = vuln_stats['lowCount']
+    # i = vuln_stats['infoCount']
+
+    c = 1
+    h = 2
+    m = 3
+    l = 4
+    i = 5
+
+    a_i, a_l, a_m, a_h, a_c = args.info, args.low, args.medium, args.high, args.critical
+    gate_type = args.gate_type
+
+    # 门禁条件和结果存储
+    gates = {
+        '超危': {'count': c, 'threshold': a_c, 'result': '-'},
+        '高危': {'count': h, 'threshold': a_h, 'result': '-'},
+        '中危': {'count': m, 'threshold': a_m, 'result': '-'},
+        '低危': {'count': l, 'threshold': a_l, 'result': '-'},
+        '信息': {'count': i, 'threshold': a_i, 'result': '-'},
+    }
+
+    # 根据门禁类型进行判断
+    for risk_level, gate in gates.items():
+        if gate['threshold'] is not None:
+            if gate_type == '<=':
+                gate['result'] = '✓' if operator.le(gate['count'], gate['threshold']) else 'x'
+            elif gate_type == '<':
+                gate['result'] = '✓' if operator.lt(gate['count'], gate['threshold']) else 'x'
+            elif gate_type == '=':
+                gate['result'] = '✓' if operator.eq(gate['count'], gate['threshold']) else 'x'
+
+    # 打印门禁信息
+    sec_gate_info = [
+        ['风险等级', '门禁', '结果'],
+        *[
+            [risk_level, f'| {gate["count"]} {gate_type} {gate["threshold"]}', f'|  {gate["result"]}']
+            for risk_level, gate in gates.items()
+        ]
+    ]
+
+    table_info = tabulate(sec_gate_info, headers='firstrow', tablefmt="simple")
+    print(table_info)
+
+    # 检查结果中是否包含任意一个 'x'
+    block = False
+    for gate in gates.values():
+        if 'x' in gate['result']:
+            block = True
+            if not args.gate_block:
+                raise ValueError("安全质量门禁不通过，流程阻断！")
+            else:
+                print("安全质量门禁不通过! 流程不阻断")
+
+    if not block:
+        print("恭喜你！安全质量门禁通过")
+

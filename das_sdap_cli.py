@@ -8,7 +8,8 @@ method_map = {
     'wait_scan': wait_scan,
     'wait_report': wait_report,
     'print_result': print_result,
-    'upload_file': upload_file_
+    'upload_file': upload_file_,
+    'sec_gate': sec_gate
 }
 
 if __name__ == '__main__':

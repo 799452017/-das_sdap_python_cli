@@ -25,7 +25,7 @@ def get_parameters():
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('method', choices=['init', 'scan', 'wait_scan', 'wait_report', 'print_result', 'upload_file'], type=str,
+parser.add_argument('method', choices=['init', 'scan', 'wait_scan', 'wait_report', 'print_result', 'upload_file', "sec_gate"], type=str,
                     help='调用方法')
 parser.add_argument('-url', '--url', type=str, help='DAS-SDAP服务地址')
 parser.add_argument('-k', '--apikey', type=str, help='DAS-SDAP服务apikey')
@@ -58,4 +58,11 @@ parser.add_argument('-params', '--parameters', nargs='+', required=False, type=p
 parser.add_argument('-o', '--out_path', required=False, type=str, help='执行结果输出到文件')
 parser.add_argument('-fk', '--file_key', required=False, type=str, help='fileKey')
 parser.add_argument('-fk_path', '--file_key_path', required=False, type=str, help='fileKey_path')
+parser.add_argument('-i', '--info', required=False, type=int, help='信息数量阈值')
+parser.add_argument('-l', '--low', required=False, type=int, help='低危数量阈值')
+parser.add_argument('-m', '--medium', required=False, type=int, help='中危数量阈值')
+parser.add_argument('-hh', '--high', required=False, type=int, help='高危数量阈值')
+parser.add_argument('-c', '--critical', required=False, type=int, help='紧急危数量阈值')
+parser.add_argument('-gt', '--gate_type', required=False, type=str, default='<', choices=['<', '<=', '='], help='阈值判断类型，满足条件则通过，<、<=、=')
+parser.add_argument('-gb', '--gate_block', required=False,  default=True, type=bool, help='是否阻断流程')
 args = parser.parse_args()

@@ -258,18 +258,12 @@ def print_result():
         write_file(vul_stats, args.out_path)
     return data
 def sec_gate():
-    # vuln_stats = print_result()
-    # c = vuln_stats['criticalCount']
-    # h = vuln_stats['highCount']
-    # m = vuln_stats['mediumCount']
-    # l = vuln_stats['lowCount']
-    # i = vuln_stats['infoCount']
-
-    c = 1
-    h = 2
-    m = 3
-    l = 4
-    i = 5
+    vuln_stats = print_result()
+    c = vuln_stats['criticalCount']
+    h = vuln_stats['highCount']
+    m = vuln_stats['mediumCount']
+    l = vuln_stats['lowCount']
+    i = vuln_stats['infoCount']
 
     a_i, a_l, a_m, a_h, a_c = args.info, args.low, args.medium, args.high, args.critical
     gate_type = args.gate_type

@@ -304,7 +304,7 @@ def sec_gate():
     for gate in gates.values():
         if 'x' in gate['result']:
             block = True
-            if not args.gate_block:
+            if args.gate_block:
                 raise ValueError("安全质量门禁不通过，流程阻断！")
             else:
                 print("安全质量门禁不通过! 流程不阻断")

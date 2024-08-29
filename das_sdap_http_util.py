@@ -1,3 +1,4 @@
+import json
 import os
 
 import requests
@@ -252,7 +253,7 @@ def print_result():
             "lowCount": data['lowCount'],
             "infoCount": data['infoCount']
         }
-        write_file(vul_stats, args.out_path)
+        write_file(json.dumps(vul_stats), args.out_path)
     return data
 def sec_gate():
     vuln_stats = print_result()

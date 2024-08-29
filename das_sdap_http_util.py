@@ -246,14 +246,11 @@ def print_result():
 
     if args.out_path:
         vul_stats = {
-            "status": "success",
-            "metrics": {
-                "criticalCount": data['criticalCount'],
-                "highCount": data['highCount'],
-                "mediumCount": data['mediumCount'],
-                "lowCount": data['lowCount'],
-                "infoCount": data['infoCount']
-            }
+            "criticalCount": data['criticalCount'],
+            "highCount": data['highCount'],
+            "mediumCount": data['mediumCount'],
+            "lowCount": data['lowCount'],
+            "infoCount": data['infoCount']
         }
         write_file(vul_stats, args.out_path)
     return data

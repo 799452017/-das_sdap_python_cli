@@ -11,6 +11,7 @@ from tabulate import tabulate
 from constans import *
 from das_sdap_util import *
 
+
 class APIError(Exception):
     pass
 
@@ -82,7 +83,8 @@ def upload_file_():
 
 def upload_file(file_path):
     file_path = file_path.name
-    response = requests.post(get_url('/api/system/file/upload'), verify=False, files={'file': (file_path, open(file_path, 'rb'))},
+    response = requests.post(get_url('/api/system/file/upload'), verify=False,
+                             files={'file': (file_path, open(file_path, 'rb'))},
                              headers=default_headers())
     data = check_response(response)
     return data['key']
@@ -126,13 +128,15 @@ def sent_scan():
         'parameters': parameters
     }
     json_body = json.dumps(body)
-    response = requests.post(get_url('/api/asset/dispatch'), verify=False, headers=default_headers_json(), data=json_body)
+    response = requests.post(get_url('/api/asset/dispatch'), verify=False, headers=default_headers_json(),
+                             data=json_body)
     data = check_response(response)
     write_file(json.dumps(data), args.out_path)
 
 
 def task_state(task_id):
-    response = requests.get(get_url('/api/task/state/' + str(task_id)), timeout=None, verify=False, headers=default_headers())
+    response = requests.get(get_url('/api/task/state/' + str(task_id)), timeout=None, verify=False,
+                            headers=default_headers())
     data = check_response(response)
     return data[0]
 
@@ -173,7 +177,8 @@ def export_report(report_name, scan_id):
     }
 
     json_body = json.dumps(body)
-    response = requests.post(get_url('/api/report/export'), verify=False, headers=default_headers_json(), data=json_body)
+    response = requests.post(get_url('/api/report/export'), verify=False, headers=default_headers_json(),
+                             data=json_body)
     data = check_response(response)
     return data
 
@@ -231,7 +236,8 @@ def print_result():
         'scanId': scan_id,
         'repeat': 'true'
     }
-    response = requests.get(get_url('/api/project/overview/vul'), verify=False, params=params, headers=default_headers())
+    response = requests.get(get_url('/api/project/overview/vul'), verify=False, params=params,
+                            headers=default_headers())
     data = check_response(response)
     print(data)
     vul_risk_data = [
@@ -253,8 +259,12 @@ def print_result():
             "lowCount": data['lowCount'],
             "infoCount": data['infoCount']
         }
-        write_file(json.dumps(vul_stats), args.out_path)
+        vul_stats_str = json.dumps(vul_stats)
+        print('vul_stats_str:' + vul_stats_str)
+        write_file(vul_stats_str, args.out_path)
     return data
+
+
 def sec_gate():
     vuln_stats = print_result()
     c = vuln_stats['criticalCount']
@@ -309,4 +319,3 @@ def sec_gate():
 
     if not block:
         print("恭喜你！安全质量门禁通过")
-

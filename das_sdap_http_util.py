@@ -261,6 +261,7 @@ def print_result():
         }
         vul_stats_str = json.dumps(vul_stats)
         print('vul_stats_str:' + vul_stats_str)
+        print('out_path:' + args.out_path)
         write_file(vul_stats_str, args.out_path)
     return data
 

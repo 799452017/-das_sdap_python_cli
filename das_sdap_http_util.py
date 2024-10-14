@@ -27,12 +27,11 @@ def check_response_notlog(response):
     else:
         raise APIError('错误信息:', response.text)
 
-def check_response(response, printlog):
+def check_response(response):
     url = response.request.url
     if response.status_code == 200 and response.json()['code'] == 200:
-        if printlog:
-            print(url + ' 请求成功！')
-            print('返回内容:', response.text)
+        print(url + ' 请求成功！')
+        print('返回内容:', response.text)
         return response.json()['data']
     else:
         print(url + ' 请求失败！')

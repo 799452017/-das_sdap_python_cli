@@ -20,12 +20,19 @@ class APIError(Exception):
 校验response信息
 '''
 
-
-def check_response(response):
+def check_response_notlog(response):
     url = response.request.url
     if response.status_code == 200 and response.json()['code'] == 200:
-        print(url + ' 请求成功！')
-        print('返回内容:', response.text)
+        return response.json()['data']
+    else:
+        raise APIError('错误信息:', response.text)
+
+def check_response(response, printlog):
+    url = response.request.url
+    if response.status_code == 200 and response.json()['code'] == 200:
+        if printlog:
+            print(url + ' 请求成功！')
+            print('返回内容:', response.text)
         return response.json()['data']
     else:
         print(url + ' 请求失败！')
@@ -203,7 +210,6 @@ def download_file(file_key, out_path):
 
 def wait_report():
     task_id = read_task_ids_for_file(args.file_path)[0]
-    print(task_id)
     task = task_state(task_id)
     scan_id = task['scanId']
     task_name = task['taskName']
@@ -221,7 +227,6 @@ def wait_report():
         if state == 'FAILED':
             raise APIError(f"报告导出异常终止 {state} state")
 
-        print('报告导出中..')
         time.sleep(5)
 
 
@@ -238,8 +243,7 @@ def print_result():
     }
     response = requests.get(get_url('/api/project/overview/vul'), verify=False, params=params,
                             headers=default_headers())
-    data = check_response(response)
-    print(data)
+    data = check_response_notlog(response)
     vul_risk_data = [
         ['风险等级', '数量'],
         ['超危', data['criticalCount']],
@@ -260,8 +264,6 @@ def print_result():
             "infoCount": data['infoCount']
         }
         vul_stats_str = json.dumps(vul_stats)
-        print('vul_stats_str:' + vul_stats_str)
-        print('out_path:' + args.out_path)
         write_file(vul_stats_str, args.out_path)
     return data
 

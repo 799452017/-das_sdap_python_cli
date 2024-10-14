@@ -143,7 +143,7 @@ def sent_scan():
 def task_state(task_id):
     response = requests.get(get_url('/api/task/state/' + str(task_id)), timeout=None, verify=False,
                             headers=default_headers())
-    data = check_response(response)
+    data = check_response_notlog(response)
     return data[0]
 
 
@@ -185,13 +185,13 @@ def export_report(report_name, scan_id):
     json_body = json.dumps(body)
     response = requests.post(get_url('/api/report/export'), verify=False, headers=default_headers_json(),
                              data=json_body)
-    data = check_response(response)
+    data = check_response_notlog(response)
     return data
 
 
 def report_state(report_id):
     response = requests.post(get_url('/api/report/' + str(report_id)), verify=False, headers=default_headers())
-    data = check_response(response)
+    data = check_response_notlog(response)
     return data
 
 

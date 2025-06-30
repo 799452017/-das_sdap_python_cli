@@ -100,6 +100,7 @@ def sent_scan():
     file_key = None
     asset_name = args.asset
     project_name = args.project
+    version_name = args.version
     task_name = args.task_name
     strategy_id = args.strategy_id
     asset_type = args.asset_type
@@ -121,6 +122,7 @@ def sent_scan():
     body = {
         'name': asset_name,
         'projectName': project_name,
+        'versionName': version_name,
         'strategyId': [strategy_id],
         'taskName': task_name,
         'asset': asset_init(asset_type),

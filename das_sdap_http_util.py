@@ -240,7 +240,8 @@ def print_result():
     scan_id = get_scan()
     params = {
         'scanId': scan_id,
-        'repeat': 'true'
+        'repeat': 'true',
+        'type': 'NOT_OVER'
     }
     response = requests.get(get_url('/api/project/overview/vul'), verify=False, params=params,
                             headers=default_headers())

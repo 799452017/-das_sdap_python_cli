@@ -9,7 +9,8 @@ method_map = {
     'wait_report': wait_report,
     'print_result': print_result,
     'upload_file': upload_file_,
-    'sec_gate': sec_gate
+    'sec_gate': sec_gate,
+    'sec_demand_result': sec_demand_result
 }
 
 if __name__ == '__main__':

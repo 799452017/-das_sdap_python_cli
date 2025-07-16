@@ -324,3 +324,39 @@ def sec_gate():
 
     if not block:
         print("恭喜你！安全质量门禁通过")
+
+def sec_demand_result():
+    project_name = args.project
+    version_name = args.version
+
+    response = requests.get(get_url('/dipper-designer/api/project/ci/issue/overview?projectName=' + project_name + '&versionName' + version_name), verify=False, params=params,
+                            headers=default_headers())
+    data = check_response_notlog(response)
+
+    vul_risk_data = [
+        ['安全需求状态', '数量'],
+        ['需求总数', data['sumCount']],
+        ['待评审', data['pendingReview']],
+        ['评审通过', data['reviewOver']],
+        ['开发中', data['inDevelopment']],
+        ['已开发', data['developmentOver']],
+        ['测试中', data['inTest']],
+        ['测试通过', data['testPassed']]
+    ]
+    table_info = tabulate(vul_risk_data, headers='firstrow', tablefmt="simple")
+    print(table_info)
+
+    if args.out_path:
+        sec_demand_stats = {
+            "sumCount": data['sumCount'],
+            "pendingReview": data['pendingReview'],
+            "reviewOver": data['reviewOver'],
+            "inDevelopment": data['inDevelopment'],
+            "developmentOver": data['developmentOver'],
+            "inTest": data['inTest'],
+            "testPassed": data['testPassed']
+        }
+        sec_demand_stats_str = json.dumps(sec_demand_stats)
+        write_file(sec_demand_stats_str, args.out_path)
+    return data
+

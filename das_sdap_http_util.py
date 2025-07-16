@@ -329,7 +329,12 @@ def sec_demand_result():
     project_name = args.project
     version_name = args.version
 
-    response = requests.get(get_url('/dipper-designer/api/project/ci/issue/overview?projectName=' + project_name + '&versionName' + version_name), verify=False, params=params,
+    params = {
+        'projectName': project_name,
+        'versionName': version_name
+    }
+
+    response = requests.get(get_url('/dipper-designer/api/project/ci/issue/overview'), verify=False, params=params,
                             headers=default_headers())
     data = check_response_notlog(response)
 
